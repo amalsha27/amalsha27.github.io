@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amalsha Ranawaka — AI & Data Science</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --bg: #ffffff;
+      --section-bg: #f9fafb;
+      --radius: 10px;
+      --nav-h: 60px;
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ===== NAV ===== */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      height: var(--nav-h);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 860px; width: 100%; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-name { font-weight: 700; font-size: 1rem; color: var(--text); letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a { font-size: 0.875rem; color: var(--muted); font-weight: 500; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--accent); text-decoration: none; }
+
+    /* ===== LAYOUT ===== */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 4rem 0; }
+    section:nth-child(even) { background: var(--section-bg); }
+    .section-label {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 2rem; color: var(--text); }
+
+    /* ===== HERO ===== */
+    #hero { padding: 5.5rem 0 4rem; background: var(--bg); }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent-light); color: var(--accent);
+      font-size: 0.8rem; font-weight: 600; padding: 0.25rem 0.75rem;
+      border-radius: 99px; margin-bottom: 1.25rem;
+    }
+    #hero h1 {
+      font-size: 2.6rem; font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.15; margin-bottom: 1rem; color: var(--text);
+    }
+    #hero h1 span { color: var(--accent); }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted); max-width: 580px;
+      margin-bottom: 2rem; line-height: 1.7;
+    }
+    .hero-links { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.1rem; border-radius: 8px; font-size: 0.875rem;
+      font-weight: 600; transition: all 0.15s; cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; text-decoration: none; }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .hero-meta { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 1.25rem; }
+    .hero-meta-item { font-size: 0.875rem; color: var(--muted); display: flex; align-items: center; gap: 0.35rem; }
+    .hero-meta-item svg { color: var(--accent); flex-shrink: 0; }
+
+    /* ===== SKILLS ===== */
+    .skill-group { margin-bottom: 1.25rem; }
+    .skill-group-title { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag {
+      background: var(--bg); border: 1.5px solid var(--border);
+      color: var(--text); font-size: 0.8rem; font-weight: 500;
+      padding: 0.25rem 0.65rem; border-radius: 6px;
+    }
+    .tag-accent { background: var(--accent-light); border-color: #bfdbfe; color: var(--accent); }
+
+    /* ===== EXPERIENCE ===== */
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 6px; bottom: 0;
+      width: 2px; background: var(--border);
+    }
+    .timeline-item { padding-left: 1.5rem; position: relative; margin-bottom: 2rem; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -5px; top: 6px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+    }
+    .tl-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 0.25rem; margin-bottom: 0.2rem; }
+    .tl-title { font-weight: 700; font-size: 0.975rem; color: var(--text); }
+    .tl-date { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
+    .tl-org { font-size: 0.875rem; color: var(--accent); margin-bottom: 0.5rem; }
+    .tl-bullets { list-style: none; padding: 0; }
+    .tl-bullets li {
+      font-size: 0.875rem; color: #374151; line-height: 1.65;
+      padding-left: 1rem; position: relative; margin-bottom: 0.3rem;
+    }
+    .tl-bullets li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-weight: 700; font-size: 1.1rem; line-height: 1.5; }
+
+    /* ===== PROJECTS ===== */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+    .project-card {
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      padding: 1.4rem; transition: border-color 0.15s, box-shadow 0.15s;
+      background: var(--bg);
+    }
+    .project-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(37,99,235,0.08); }
+    .project-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .project-title { font-weight: 700; font-size: 0.975rem; color: var(--text); margin-bottom: 0.2rem; }
+    .project-period { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.6rem; }
+    .project-desc { font-size: 0.85rem; color: #374151; line-height: 1.65; margin-bottom: 0.85rem; }
+    .project-stats {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.85rem;
+    }
+    .stat-badge {
+      background: var(--accent-light); color: var(--accent);
+      font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.55rem;
+      border-radius: 5px;
+    }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .stack-tag {
+      background: var(--section-bg); border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 4px;
+    }
+
+    /* ===== PUBLICATIONS & AWARDS ===== */
+    .pub-card {
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      padding: 1.25rem 1.4rem; margin-bottom: 1rem; background: var(--bg);
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .pub-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .pub-title { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.2rem; line-height: 1.5; }
+    .pub-meta { font-size: 0.8rem; color: var(--muted); }
+    .awards-list { list-style: none; }
+    .awards-list li {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem;
+    }
+    .awards-list li:last-child { border-bottom: none; }
+    .award-badge { font-size: 1.1rem; flex-shrink: 0; }
+    .award-text strong { color: var(--text); display: block; font-size: 0.875rem; }
+    .award-text span { color: var(--muted); font-size: 0.8rem; }
+
+    /* ===== EDUCATION ===== */
+    .edu-card {
+      border: 1.5px solid var(--border); border-radius: var(--radius);
+      padding: 1.25rem 1.4rem; margin-bottom: 1rem; background: var(--bg);
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;
+    }
+    .edu-degree { font-weight: 700; font-size: 0.975rem; color: var(--text); margin-bottom: 0.2rem; }
+    .edu-school { font-size: 0.875rem; color: var(--accent); margin-bottom: 0.25rem; }
+    .edu-detail { font-size: 0.8rem; color: var(--muted); }
+    .edu-date { font-size: 0.8rem; color: var(--muted); white-space: nowrap; text-align: right; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 2.5rem 0; text-align: center;
+      border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--muted);
+    }
+    footer a { color: var(--accent); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      #hero h1 { font-size: 2rem; }
+      .nav-links { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-name">Amalsha Ranawaka</span>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#education">Education</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-tag">Open to Work · OPT / STEM OPT</div>
+    <h1>AI &amp; Data Science<br><span>Graduate Student</span></h1>
+    <p class="hero-sub">
+      Building predictive models, analytics pipelines, and KPI dashboards.
+      Experienced in generative AI, NLP, deep learning, and enterprise consulting
+      across supply chain, healthcare, and environmental domains.
+    </p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="mailto:amalsha2001@icloud.com">
+        <!-- mail icon -->
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        Get in Touch
+      </a>
+      <a class="btn btn-outline" href="https://linkedin.com/in/amalsha-ranawaka2001" target="_blank">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a class="btn btn-outline" href="https://github.com/amalsha27" target="_blank">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+    </div>
+    <div class="hero-meta">
+      <span class="hero-meta-item">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Vermillion, SD (Remote-ready)
+      </span>
+      <span class="hero-meta-item">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.37 18 19.5 19.5 0 0 1 6.5 13.12 19.79 19.79 0 0 1 3.09 4.18 2 2 0 0 1 5.07 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L9.91 9.91a16 16 0 0 0 6.12 6.12l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 24 16.92z"/></svg>
+        +1 (605) 653-0821
+      </span>
+      <span class="hero-meta-item">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 7l-7 5-9-7H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg>
+        amalsha2001@icloud.com
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">Technical Skills</div>
+    <h2>What I Work With</h2>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Languages &amp; Tools</div>
+      <div class="skill-tags">
+        <span class="tag tag-accent">Python</span>
+        <span class="tag tag-accent">SQL</span>
+        <span class="tag tag-accent">Power BI</span>
+        <span class="tag tag-accent">DAX</span>
+        <span class="tag">Pandas</span>
+        <span class="tag">NumPy</span>
+        <span class="tag">Scikit-learn</span>
+        <span class="tag">Matplotlib</span>
+        <span class="tag">Seaborn</span>
+        <span class="tag">Microsoft Excel</span>
+        <span class="tag">Git</span>
+        <span class="tag">Docker</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">AWS</span>
+        <span class="tag">Streamlit</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Machine Learning &amp; AI</div>
+      <div class="skill-tags">
+        <span class="tag tag-accent">Machine Learning</span>
+        <span class="tag tag-accent">Deep Learning</span>
+        <span class="tag tag-accent">NLP</span>
+        <span class="tag tag-accent">Generative AI</span>
+        <span class="tag tag-accent">LLMs</span>
+        <span class="tag tag-accent">RAG</span>
+        <span class="tag">TensorFlow</span>
+        <span class="tag">PyTorch</span>
+        <span class="tag">Hugging Face</span>
+        <span class="tag">LangChain</span>
+        <span class="tag">FAISS</span>
+        <span class="tag">XGBoost</span>
+        <span class="tag">LightGBM</span>
+        <span class="tag">SHAP</span>
+        <span class="tag">LIME</span>
+        <span class="tag">MLflow</span>
+        <span class="tag">Prompt Engineering</span>
+        <span class="tag">Computer Vision</span>
+        <span class="tag">Reinforcement Learning</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-group-title">Analytics &amp; Business</div>
+      <div class="skill-tags">
+        <span class="tag">Statistical Modeling</span>
+        <span class="tag">Forecasting</span>
+        <span class="tag">Feature Engineering</span>
+        <span class="tag">A/B Testing</span>
+        <span class="tag">ETL</span>
+        <span class="tag">Data Visualization</span>
+        <span class="tag">Data Governance</span>
+        <span class="tag">Business Requirements Analysis</span>
+        <span class="tag">Stakeholder Management</span>
+        <span class="tag">Agile / Scrum</span>
+        <span class="tag">UAT</span>
+        <span class="tag">Lean Six Sigma</span>
+        <span class="tag">TMS / WMS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">Work History</div>
+    <h2>Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="tl-header">
+          <span class="tl-title">Digital Accessibility Assistant</span>
+          <span class="tl-date">Dec 2025 – May 2026</span>
+        </div>
+        <div class="tl-org">University of South Dakota · Vermillion, SD</div>
+        <ul class="tl-bullets">
+          <li>Spearheaded WCAG 2.1/ADA compliance for 100+ documents through systematic evaluations using Adobe Acrobat Pro, YuJa Panorama, and screen readers, coaching 15+ faculty and staff on accessibility standards.</li>
+          <li>Streamlined compliance processes by developing reusable guidelines and documentation, reducing turnaround time and enhancing institution-wide data governance.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-header">
+          <span class="tl-title">Consultant Associate</span>
+          <span class="tl-date">May 2023 – Dec 2023</span>
+        </div>
+        <div class="tl-org">Fortude (Pvt) Ltd · Colombo, Sri Lanka</div>
+        <ul class="tl-bullets">
+          <li>Optimized enterprise client operations by delivering Infor M3 ERP analytics and workflow automation within Marketing and Procurement, achieving zero post-deployment defects through rigorous UAT.</li>
+          <li>Drove system adoption by training 20+ end-users on new dashboards and developing SOPs, boosting data literacy across client organizations.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-header">
+          <span class="tl-title">Data Analyst Intern</span>
+          <span class="tl-date">Jul 2022 – Jan 2023</span>
+        </div>
+        <div class="tl-org">MAS Intimates · Sri Lanka</div>
+        <ul class="tl-bullets">
+          <li>Uncovered key attrition drivers across 700+ employee records using Python and SQL, providing actionable recommendations to inform HR retention strategy and mitigate projected churn.</li>
+          <li>Accelerated leadership decision-making by constructing KPI dashboards that consolidated workforce engagement and retention metrics into a single source of truth.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-header">
+          <span class="tl-title">Digitalization &amp; Strategic Planning Intern</span>
+          <span class="tl-date">Apr 2022 – Jul 2022</span>
+        </div>
+        <div class="tl-org">MAS Intimates · Sri Lanka</div>
+        <ul class="tl-bullets">
+          <li>Elevated supply chain reporting accuracy and enabled real-time executive KPI tracking by developing Power BI dashboards and leading PLM master data cleansing across production datasets.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">Selected Work</div>
+    <h2>Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-icon">🧠</div>
+        <div class="project-title">EARAS — Agentic RAG &amp; NLP Analytics System</div>
+        <div class="project-period">Jan 2026 – May 2026</div>
+        <p class="project-desc">
+          Full agentic NLP pipeline with emotion-adaptive retrieval and advanced prompt engineering for anomaly detection on a 6,035-post mental health dataset. Pipeline: BM25 + SBERT + RRF + Cross-Encoder reranking.
+        </p>
+        <div class="project-stats">
+          <span class="stat-badge">Precision 1.00</span>
+          <span class="stat-badge">F1 0.95</span>
+          <span class="stat-badge">6,035 records</span>
+        </div>
+        <div class="project-stack">
+          <span class="stack-tag">NLP</span>
+          <span class="stack-tag">RAG</span>
+          <span class="stack-tag">LLMs</span>
+          <span class="stack-tag">SBERT</span>
+          <span class="stack-tag">Prompt Engineering</span>
+          <span class="stack-tag">Python</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🏥</div>
+        <div class="project-title">Fast-cWDM — Bidirectional MRI Synthesis</div>
+        <div class="project-period">Jan 2026 – May 2026</div>
+        <p class="project-desc">
+          Novel wavelet diffusion model (Fast-cWDM) designed from scratch for single-model bidirectional MRI modality synthesis: T1↔T1Gd and T2↔FLAIR, evaluated on the BraTS 2023 benchmark.
+        </p>
+        <div class="project-stats">
+          <span class="stat-badge">SSIM &gt; 0.89</span>
+          <span class="stat-badge">105 subjects</span>
+          <span class="stat-badge">BraTS 2023</span>
+        </div>
+        <div class="project-stack">
+          <span class="stack-tag">Diffusion Models</span>
+          <span class="stack-tag">PyTorch</span>
+          <span class="stack-tag">Computer Vision</span>
+          <span class="stack-tag">Deep Learning</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🌍</div>
+        <div class="project-title">Multi-State AQI Forecasting</div>
+        <div class="project-period">Sep 2025 – Dec 2025</div>
+        <p class="project-desc">
+          Spatio-temporal deep learning pipeline for AQI prediction across large multi-state datasets. Benchmarked LSTM, CNN-LSTM, and GNN architectures; applied SHAP and LIME for model interpretability.
+        </p>
+        <div class="project-stats">
+          <span class="stat-badge">78% error reduction</span>
+          <span class="stat-badge">RMSE 27→5.87</span>
+        </div>
+        <div class="project-stack">
+          <span class="stack-tag">LSTM</span>
+          <span class="stack-tag">CNN-LSTM</span>
+          <span class="stack-tag">GNN</span>
+          <span class="stack-tag">SHAP</span>
+          <span class="stack-tag">LIME</span>
+          <span class="stack-tag">Python</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS & AWARDS -->
+<section id="publications">
+  <div class="container">
+    <div class="section-label">Research &amp; Recognition</div>
+    <h2>Publications &amp; Awards</h2>
+
+    <div class="pub-card">
+      <div class="pub-icon">📄</div>
+      <div>
+        <div class="pub-title">"Optimization of Demand Forecasting in the Supply Chain Management of the Apparel Industry"</div>
+        <div class="pub-meta">Preprint · May 2024 · <a href="https://doi.org/10.21203/rs.3.rs-4330769/v1" target="_blank">DOI: 10.21203/rs.3.rs-4330769/v1</a></div>
+      </div>
+    </div>
+
+    <ul class="awards-list">
+      <li>
+        <span class="award-badge">🏛️</span>
+        <div class="award-text">
+          <strong>Regional Participant — NSF I-Corps Program (Great Plains Hub)</strong>
+          <span>University of South Dakota · 2025</span>
+        </div>
+      </li>
+      <li>
+        <span class="award-badge">🏅</span>
+        <div class="award-text">
+          <strong>Presidential Award — 25th National Civilian Bravery Awards Ceremony</strong>
+          <span>Sri Lanka · 2019</span>
+        </div>
+      </li>
+      <li>
+        <span class="award-badge">🥇</span>
+        <div class="award-text">
+          <strong>Gold Award — The Duke of Edinburgh's International Award</strong>
+          <span>United Kingdom · 2019 (also Silver 2018, Bronze 2017)</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="section-label">Academic Background</div>
+    <h2>Education</h2>
+
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">MSc in Computer Science (Artificial Intelligence)</div>
+        <div class="edu-school">University of South Dakota</div>
+        <div class="edu-detail">GPA: 3.72 / 4.0</div>
+      </div>
+      <div class="edu-date">Jan 2025 – May 2026</div>
+    </div>
+
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">BSc (Hons) Artificial Intelligence &amp; Data Science</div>
+        <div class="edu-school">Robert Gordon University, Aberdeen</div>
+        <div class="edu-detail">Second Class Upper Honours</div>
+      </div>
+      <div class="edu-date">Jan 2021 – Jun 2024</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>Built with HTML &amp; CSS · Hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
+    <p style="margin-top:0.3rem;">© 2026 Amalsha Ranawaka · <a href="mailto:amalsha2001@icloud.com">amalsha2001@icloud.com</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
