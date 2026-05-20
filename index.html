@@ -8,10 +8,18 @@
     /* ===== VARIABLES & RESET ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --accent:       #2563eb;
-      --accent-dark:  #1d4ed8;
-      --accent-light: #eff6ff;
-      --accent-mid:   #bfdbfe;
+      --accent:       #4f46e5;
+      --accent-dark:  #3730a3;
+      --accent-light: #eef2ff;
+      --accent-mid:   #c7d2fe;
+      --teal:         #0d9488;
+      --teal-light:   #ccfbf1;
+      --violet:       #7c3aed;
+      --violet-light: #ede9fe;
+      --rose:         #e11d48;
+      --rose-light:   #ffe4e6;
+      --amber:        #d97706;
+      --amber-light:  #fef3c7;
       --text:         #0f172a;
       --text-2:       #334155;
       --muted:        #64748b;
@@ -23,7 +31,7 @@
       --radius-sm:    8px;
       --shadow-sm:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
       --shadow-md:    0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
-      --shadow-lg:    0 10px 40px rgba(37,99,235,.12);
+      --shadow-lg:    0 10px 40px rgba(79,70,229,.14);
       --nav-h:        64px;
     }
     html { scroll-behavior: smooth; }
@@ -58,7 +66,7 @@
     .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
     .section-eyebrow {
       font-size: .7rem; font-weight: 800; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: .4rem;
+      text-transform: uppercase; color: var(--teal); margin-bottom: .4rem;
     }
     .section-title {
       font-size: 1.75rem; font-weight: 800; letter-spacing: -.03em;
@@ -79,7 +87,8 @@
     }
     .hero-badge {
       display: inline-flex; align-items: center; gap: .4rem;
-      background: var(--accent-light); color: var(--accent);
+      background: linear-gradient(90deg, var(--accent-light), var(--violet-light));
+      color: var(--violet);
       font-size: .73rem; font-weight: 700; padding: .3rem .85rem;
       border-radius: 99px; margin-bottom: 1.25rem;
       border: 1px solid var(--accent-mid);
@@ -116,8 +125,8 @@
     /* Photo circle */
     .hero-photo {
       width: 220px; height: 220px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent-mid) 100%);
-      border: 3px solid var(--bg); box-shadow: var(--shadow-lg);
+      background: linear-gradient(135deg, var(--accent-light) 0%, var(--violet-light) 50%, var(--accent-mid) 100%);
+      border: 4px solid var(--bg); box-shadow: 0 0 0 3px var(--accent-mid), var(--shadow-lg);
       display: flex; align-items: center; justify-content: center;
       overflow: hidden; flex-shrink: 0; position: relative;
     }
@@ -129,7 +138,7 @@
       letter-spacing: -.05em; user-select: none;
     }
     /* Show initials only when no real img is present */
-    .hero-photo img[src=""] ~ .photo-initials,
+    .hero-photo img[src="/Users/amalshar/Desktop/FullSizeRender.HEIC"] ~ .photo-initials,
     .hero-photo img:not([src]) ~ .photo-initials { display: flex; }
 
     /* ===== ABOUT STRIP ===== */
@@ -152,9 +161,16 @@
     .skill-card {
       background: var(--bg); border: 1.5px solid var(--border);
       border-radius: var(--radius); padding: 1.4rem 1.5rem;
-      transition: box-shadow .2s, border-color .2s;
+      transition: box-shadow .2s, border-color .2s, transform .2s;
+      border-top: 3px solid var(--accent);
     }
-    .skill-card:hover { border-color: var(--accent-mid); box-shadow: var(--shadow-md); }
+    .skill-card:nth-child(1) { border-top-color: var(--accent); }
+    .skill-card:nth-child(2) { border-top-color: var(--violet); }
+    .skill-card:nth-child(3) { border-top-color: var(--teal); }
+    .skill-card:nth-child(4) { border-top-color: var(--amber); }
+    .skill-card:nth-child(5) { border-top-color: var(--rose); }
+    .skill-card:nth-child(6) { border-top-color: #0ea5e9; }
+    .skill-card:hover { border-color: var(--accent-mid); box-shadow: var(--shadow-md); transform: translateY(-2px); }
     .skill-card-header { display: flex; align-items: center; gap: .65rem; margin-bottom: 1rem; }
     .skill-icon { font-size: 1.4rem; }
     .skill-card-title { font-size: .875rem; font-weight: 800; color: var(--text); letter-spacing: -.01em; }
@@ -165,7 +181,7 @@
       background: var(--bg-2); color: var(--text-2); transition: all .12s;
     }
     .stag:hover { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); }
-    .stag.hi { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); }
+    .stag.hi { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); font-weight: 700; }
 
     /* ===== EXPERIENCE ===== */
     .timeline { position: relative; padding-left: .75rem; }
@@ -201,7 +217,7 @@
       cursor:pointer; transition:all .15s;
     }
     .filter-btn:hover { border-color:var(--accent); color:var(--accent); }
-    .filter-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+    .filter-btn.active { background:linear-gradient(135deg,var(--accent),var(--violet)); border-color:var(--accent); color:#fff; }
     .projects-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(285px, 1fr)); gap:1.25rem; }
     .proj-card {
       background:var(--bg); border:1.5px solid var(--border); border-radius:var(--radius);
@@ -216,7 +232,7 @@
     .proj-title { font-weight:800; font-size:.925rem; color:var(--text); margin-bottom:.15rem; line-height:1.35; }
     .proj-desc { font-size:.835rem; color:var(--text-2); line-height:1.7; margin-bottom:.85rem; flex:1; }
     .proj-stats { display:flex; flex-wrap:wrap; gap:.35rem; margin-bottom:.75rem; }
-    .proj-stat { font-size:.72rem; font-weight:700; background:var(--accent-light); color:var(--accent); padding:.2rem .55rem; border-radius:5px; }
+    .proj-stat { font-size:.72rem; font-weight:700; background:linear-gradient(90deg,var(--accent-light),var(--violet-light)); color:var(--violet); padding:.2rem .55rem; border-radius:5px; }
     .proj-stack { display:flex; flex-wrap:wrap; gap:.35rem; }
     .proj-tech { font-size:.72rem; color:var(--muted); background:var(--bg-3); border:1px solid var(--border); padding:.18rem .5rem; border-radius:4px; }
 
@@ -258,7 +274,8 @@
 
     /* ===== FOOTER ===== */
     footer {
-      background:var(--text); color:rgba(255,255,255,.5);
+      background:linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      color:rgba(255,255,255,.5);
       padding:2.5rem 0; text-align:center; font-size:.82rem;
     }
     footer a { color:rgba(255,255,255,.75); }
@@ -295,7 +312,7 @@
 </nav>
 
 <!-- ═══ HERO ═══ -->
-<section id="about" style="padding:5.5rem 0 5rem; background:linear-gradient(135deg,#f0f7ff 0%,#ffffff 65%); border-bottom:1px solid var(--border);">
+<section id="about" style="padding:5.5rem 0 5rem; background:linear-gradient(135deg,#eef2ff 0%,#f5f3ff 40%,#ffffff 80%); border-bottom:1px solid var(--border);">
   <div class="container">
     <div class="hero-grid">
       <div>
@@ -351,31 +368,6 @@
       </div>
     </div>
 
-    <!-- STATS STRIP -->
-    <div style="margin-top:3rem;">
-      <div class="stat-strip">
-        <div class="stat-item">
-          <div class="stat-num">3.72</div>
-          <div class="stat-label">MSc GPA / 4.0</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">8+</div>
-          <div class="stat-label">Projects Completed</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">4+</div>
-          <div class="stat-label">Years Experience</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">1</div>
-          <div class="stat-label">Published Research</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">6</div>
-          <div class="stat-label">Awards &amp; Honours</div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -785,13 +777,6 @@
         <div>
           <div class="award-name">Bronze Award — Duke of Edinburgh's</div>
           <div class="award-year">International Award · UK · 2017</div>
-        </div>
-      </div>
-      <div class="award-chip">
-        <span class="award-emoji">🏆</span>
-        <div>
-          <div class="award-name">Bronze Award — Devi Siyapath Awards</div>
-          <div class="award-year">Sri Lanka · 2019</div>
         </div>
       </div>
     </div>
